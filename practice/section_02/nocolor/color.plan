@@ -1,0 +1,29 @@
+[0m[1maws_security_group.test_sg: Refreshing state... [id=sg-071d34580cb4e230a][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+[31m-[0m/[32m+[0m destroy and then create replacement[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_security_group.test_sg[0m must be [1m[31mreplaced[0m
+[0m[31m-[0m/[32m+[0m[0m resource "aws_security_group" "test_sg" {
+      [33m~[0m[0m arn                    = "arn:aws:ec2:us-east-1:155569052071:security-group/sg-071d34580cb4e230a" -> (known after apply)
+      [33m~[0m[0m egress                 = [] -> (known after apply)
+      [33m~[0m[0m id                     = "sg-071d34580cb4e230a" -> (known after apply)
+      [33m~[0m[0m ingress                = [] -> (known after apply)
+      [33m~[0m[0m name                   = "test-sg" [33m->[0m[0m "test-sg-01" [31m# forces replacement[0m[0m
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [33m~[0m[0m owner_id               = "155569052071" -> (known after apply)
+      [31m-[0m[0m tags                   = {} [90m-> null[0m[0m
+      [33m~[0m[0m tags_all               = {} -> (known after apply)
+      [33m~[0m[0m vpc_id                 = "vpc-0c67c57877889268e" -> (known after apply)
+        [90m# (3 unchanged attributes hidden)[0m[0m
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 1 to destroy.
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
