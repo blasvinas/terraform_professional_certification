@@ -7,3 +7,10 @@ provider "registry.terraform.io/hashicorp/aws" {
     "h1:lTKd2c1EunGxt2XROLgEeSXA2Jk+WiiG9BTcp+L/0xY=",
   ]
 }
+
+provider "registry.terraform.io/hashicorp/azurerm" {
+  version = "5.2.0"
+  hashes = [
+    "h1:bSqV1UtqdRDbuaXK53qd5NqfnRwAx7zaRaNrlA2umGk=",
+  ]
+}
