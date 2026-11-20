@@ -1,32 +1,57 @@
-# Required Variable Input
+# Required Input Variables and `-input=false`
 
-This example demonstrates how Terraform fails when a required input variable is not provided.
+This example demonstrates how Terraform fails when a required input variable is
+not provided, and how the `-input=false` option makes that failure immediate
+instead of prompting for a value.
 
-## Configuration
+The scenario: a `local_file` resource takes its filename from a variable that
+has no default value, so Terraform cannot plan until the value is supplied.
 
-`main.tf` declares `file_name` without a default value:
+## Files
+
+| File      | Purpose                                                                |
+| --------- | ---------------------------------------------------------------------- |
+| `main.tf` | Declares the required `file_name` variable and a `local_file` resource. |
+
+## The Configuration
 
 ```hcl
 variable "file_name" {}
-```
 
-The variable is used as the destination filename for a `local_file` resource:
-
-```hcl
 resource "local_file" "foo" {
   content  = "Hello, World!"
   filename = var.file_name
 }
 ```
 
-Because `file_name` has no default, the root module requires a value before Terraform can create or plan the resource.
+- **`file_name`** — declared without a `default`, so the root module requires
+  a value before Terraform can plan or apply.
+- **`local_file.foo`** — writes `Hello, World!` to the file named by
+  `var.file_name`.
 
-## Reproduce the Failure
+By default, Terraform prompts interactively for missing variables. With
+`-input=false`, it fails instead, which is the behaviour you want in automation
+and CI/CD pipelines where nobody can answer a prompt.
 
-Initialize the working directory, then run a plan with interactive input disabled:
+## Prerequisites
 
-```shell
+- Terraform installed
+- Network access to the Terraform Registry (for `terraform init`)
+
+No cloud credentials are required. The `local` provider only writes files on the
+machine running Terraform.
+
+## Step-by-Step Process
+
+### 1. Initialize the working directory
+
+```bash
 terraform init
+```
+
+### 2. Reproduce the failure
+
+```bash
 terraform plan -input=false
 ```
 
@@ -39,47 +64,45 @@ The root module input variable "file_name" is not set, and has no default value.
 Use a -var or -var-file command line argument to provide a value.
 ```
 
-The `-input=false` option prevents Terraform from prompting for the missing value. This makes the command fail immediately when the required input is absent, which is useful in automation and CI/CD pipelines.
+### 3. Provide the value on the command line
 
-## Provide the Required Input
-
-Pass the value directly on the command line:
-
-```shell
+```bash
 terraform plan -input=false -var='file_name=hello.txt'
-```
-
-To create the file, provide the same variable to `apply`:
-
-```shell
 terraform apply -input=false -auto-approve -var='file_name=hello.txt'
 ```
 
-The command creates `hello.txt` containing:
+The apply creates `hello.txt` containing:
 
 ```text
 Hello, World!
 ```
 
-The value can also be supplied through a variable definition file. Create `terraform.tfvars` with:
+### 4. Provide the value with a variable definitions file (optional)
+
+Create `terraform.tfvars`:
 
 ```hcl
 file_name = "hello.txt"
 ```
 
-Then run:
+Terraform loads `terraform.tfvars` automatically, so no `-var` is needed:
 
-```shell
+```bash
 terraform plan -input=false
 terraform apply -input=false -auto-approve
 ```
 
-## Cleanup
+### 5. Clean up
 
-Remove the file created by Terraform and the local state:
-
-```shell
+```bash
 terraform destroy -input=false -auto-approve -var='file_name=hello.txt'
 ```
 
-Alternatively, delete the generated `hello.txt` and Terraform state files after experimenting.
+## Key Takeaways
+
+- A variable without a `default` is required; Terraform cannot plan without it.
+- Without `-input=false`, Terraform prompts for missing values interactively.
+- `-input=false` turns the prompt into an immediate error, which is safer for
+  automation.
+- Supply values with `-var`, `-var-file`, `terraform.tfvars`, or `TF_VAR_*`
+  environment variables.

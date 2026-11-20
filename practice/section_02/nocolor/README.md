@@ -1,10 +1,20 @@
-# Terraform Plan Without Color
+# Terraform Output Without Color (`-no-color`)
 
-This example demonstrates how to use Terraform's `-no-color` option to remove ANSI color escape sequences from command output.
+This example demonstrates how to use the `-no-color` option to remove ANSI color
+escape sequences from Terraform command output.
 
-## Configuration
+The scenario: a plan is saved to a text file. With color enabled, the file is
+full of terminal escape codes; with `-no-color`, it is plain, readable text.
 
-`main.tf` defines an AWS security group:
+## Files
+
+| File           | Purpose                                                    |
+| -------------- | ---------------------------------------------------------- |
+| `main.tf`      | Defines a single AWS security group.                       |
+| `color.plan`   | Sample plan output saved **with** ANSI color codes.        |
+| `nocolor.plan` | Sample plan output saved with `-no-color`.                 |
+
+## The Configuration
 
 ```hcl
 resource "aws_security_group" "test_sg" {
@@ -12,53 +22,63 @@ resource "aws_security_group" "test_sg" {
 }
 ```
 
-The existing state causes Terraform to plan a replacement when the configuration is evaluated.
+Terraform normally uses color and bold text so additions, changes, and deletions
+are easy to spot in a terminal. When that output is redirected to a file, the
+formatting is stored as escape sequences such as `\x1b[31m`, which make the file
+hard to read and process.
 
-## Generate a Colored Plan
+## Prerequisites
 
-Run a normal plan and redirect the output to a file:
+- Terraform installed
+- AWS credentials configured (e.g. via `AWS_PROFILE`, environment variables, or
+  `~/.aws/credentials`)
 
-```shell
+## Step-by-Step Process
+
+### 1. Initialize the working directory
+
+```bash
+terraform init
+```
+
+### 2. Save a colored plan
+
+```bash
 terraform plan > color.plan
 ```
 
-When output is intended for an interactive terminal, Terraform uses color and formatting to make additions, changes, and deletions easier to identify. The redirected `color.plan` file can therefore contain ANSI escape sequences such as `\x1b[31m`.
+### 3. Save a plan without color
 
-## Generate a Plan Without Color
-
-Use the `-no-color` option to disable color codes:
-
-```shell
+```bash
 terraform plan -no-color > nocolor.plan
 ```
 
-The resulting `nocolor.plan` file contains readable plain text. This is useful when saving plans to files, publishing logs in CI/CD systems, or processing command output with other tools.
+The option also works for output shown directly in the terminal:
 
-The option can also be used with `plan` output shown directly in the terminal:
-
-```shell
+```bash
 terraform plan -no-color
 ```
 
-## Compare the Output
+### 4. Compare the output
 
-Compare the two generated files:
-
-```shell
+```bash
 diff -u color.plan nocolor.plan
 ```
 
-The plan content is the same, but `color.plan` includes terminal formatting sequences and `nocolor.plan` does not. To check for ANSI escape characters directly:
+The plan content is the same, but only `color.plan` includes formatting codes.
+To check for the escape character directly:
 
-```shell
-grep -n $'\\033' color.plan
-! grep -n $'\\033' nocolor.plan
+```bash
+grep -c $'\033' color.plan
+grep -c $'\033' nocolor.plan
 ```
 
-The first command should find matches in the colored output. The `!` before the second command makes the check succeed when no escape characters are found in the plain-text output.
+The first command reports matching lines; the second reports `0`.
 
-## Notes
+## Key Takeaways
 
-- `-no-color` changes presentation only; it does not change the planned infrastructure actions.
-- The `-no-color` option is different from `-out`. Use `-out` when you need to save a binary plan for a later `terraform apply`.
-- Run `terraform init` before the first plan if the provider has not been initialized in this directory.
+- `-no-color` changes presentation only; it does not change the planned actions.
+- Use it when saving output to files, publishing CI/CD logs, or piping output
+  into other tools.
+- `-no-color` is different from `-out`: use `-out` to save a binary plan for a
+  later `terraform apply`.
