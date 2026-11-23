@@ -19,5 +19,6 @@ Index of the practice projects and their documentation.
 | Section 03 | `heredoc` | Demonstrates multi-line strings with standard (`<<EOT`) and indented (`<<-EOT`) heredoc syntax. | [README.md](section_03/heredoc/README.md) |
 | Section 03 | `jason` | Demonstrates converting between Terraform values and JSON with `jsonencode` and `jsondecode`. | [README.md](section_03/jason/README.md) |
 | Section 03 | `data_sources` | Demonstrates using the `aws_ami` data source to look up the latest RHEL 10.2 x86_64 AMI for an EC2 instance, with `ignore_changes` to avoid replacement when new AMIs are published. | [README.md](section_03/data_sources/README.md) |
+| Section 03 | `input_variable_validation` | Demonstrates custom `validation` blocks on input variables using `length()`, `contains()`, `can()`/`regex()`, and `substr()`. | [README.md](section_03/input_variable_validation/README.md) |
 
 Add each new project README to this table as practice examples are created.
