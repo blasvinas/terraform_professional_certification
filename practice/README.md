@@ -25,5 +25,6 @@ Index of the practice projects and their documentation.
 | Section 03 | `sensitive_parameter` | Demonstrates hiding secrets with sensitive variables, sensitive outputs, and the `local_sensitive_file` resource. | [README.md](section_03/sensitive_parameter/README.md) |
 | Section 03 | `ignore_changes` | Demonstrates `lifecycle { ignore_changes }` to keep tags added outside of Terraform from being removed on an EC2 instance. | [README.md](section_03/ignore_changes/README.md) |
 | Section 03 | `create_before_destroy` | Demonstrates `lifecycle { create_before_destroy }` to create a replacement EC2 instance before destroying the old one. | [README.md](section_03/create_before_destroy/README.md) |
+| Section 03 | `prevent_destroy` | Demonstrates `lifecycle { prevent_destroy }` to block plans that would destroy or replace an EC2 instance. | [README.md](section_03/prevent_destroy/README.md) |
 
 Add each new project README to this table as practice examples are created.
