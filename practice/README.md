@@ -22,5 +22,6 @@ Index of the practice projects and their documentation.
 | Section 03 | `input_variable_validation` | Demonstrates custom `validation` blocks on input variables using `length()`, `contains()`, `can()`/`regex()`, and `substr()`. | [README.md](section_03/input_variable_validation/README.md) |
 | Section 03 | `pre_post_conditions` | Demonstrates `precondition` and `postcondition` blocks in a resource `lifecycle` to check an EC2 instance's type and region. | [README.md](section_03/pre_post_conditions/README.md) |
 | Section 03 | `check_block` | Demonstrates a `check` block with a scoped `http` data source and an `assert` that warns (without failing) when a website is down. | [README.md](section_03/check_block/README.md) |
+| Section 03 | `sensitive_paramenter` | Demonstrates hiding secrets with sensitive variables, sensitive outputs, and the `local_sensitive_file` resource. | [README.md](section_03/sensitive_paramenter/README.md) |
 
 Add each new project README to this table as practice examples are created.
