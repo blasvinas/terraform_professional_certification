@@ -213,7 +213,6 @@ This deletes `demo.txt` and `secret_file.txt`.
   `local_sensitive_file`, when writing secrets.
 - **Formatting.** `variables.tf` uses 4-space indentation and unaligned `=`
   signs; `terraform fmt` will fix it.
-- The folder name has a typo (`paramenter` instead of `parameter`).
 
 ## Key Takeaways
 
