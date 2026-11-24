@@ -24,5 +24,6 @@ Index of the practice projects and their documentation.
 | Section 03 | `check_block` | Demonstrates a `check` block with a scoped `http` data source and an `assert` that warns (without failing) when a website is down. | [README.md](section_03/check_block/README.md) |
 | Section 03 | `sensitive_parameter` | Demonstrates hiding secrets with sensitive variables, sensitive outputs, and the `local_sensitive_file` resource. | [README.md](section_03/sensitive_parameter/README.md) |
 | Section 03 | `ignore_changes` | Demonstrates `lifecycle { ignore_changes }` to keep tags added outside of Terraform from being removed on an EC2 instance. | [README.md](section_03/ignore_changes/README.md) |
+| Section 03 | `create_before_destroy` | Demonstrates `lifecycle { create_before_destroy }` to create a replacement EC2 instance before destroying the old one. | [README.md](section_03/create_before_destroy/README.md) |
 
 Add each new project README to this table as practice examples are created.
