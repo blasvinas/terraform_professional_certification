@@ -28,5 +28,6 @@ Index of the practice projects and their documentation.
 | Section 03 | `prevent_destroy` | Demonstrates `lifecycle { prevent_destroy }` to block plans that would destroy or replace an EC2 instance. | [README.md](section_03/prevent_destroy/README.md) |
 | Section 03 | `data_type_list` | Demonstrates a `list(string)` input variable set in `terraform.tfvars` and returned as an output. | [README.md](section_03/data_type_list/README.md) |
 | Section 03 | `data_type_map` | Demonstrates a `map` input variable set in `terraform.tfvars`, returned as an output, and used with map functions. | [README.md](section_03/data_type_map/README.md) |
+| Section 03 | `data_type_object` | Demonstrates an `object` input variable with typed attributes, set in `terraform.tfvars` and returned as an output. | [README.md](section_03/data_type_object/README.md) |
 
 Add each new project README to this table as practice examples are created.
