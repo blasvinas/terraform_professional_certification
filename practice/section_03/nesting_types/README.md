@@ -15,7 +15,7 @@ the value is only read and returned as an output.
 | ------------------ | ---------------------------------------------------------------- |
 | `variables.tf`     | Declares the `servers` variable of type `list(object({...}))`.   |
 | `terraform.tfvars` | Sets `servers` to two servers.                                   |
-| `outputs.tf`       | Exposes the `servers` variable as an output.                     |
+| `outputs.tf`       | Exposes the whole `servers` variable and one nested value (`owner`). |
 
 ## The Configuration
 
@@ -84,7 +84,17 @@ automatically.
 output "servers" {
   value = var.servers
 }
+
+# Display inner values
+output "owner" {
+  value = var.servers[1]["tags"]["owner"]
+}
 ```
+
+- **`servers`** returns the whole nested structure.
+- **`owner`** reaches inside it and returns a single value: the owner of the
+  second server, `"Bob"`. See [Accessing Nested Values](#accessing-nested-values)
+  for how the expression is read.
 
 ## Accessing Nested Values
 
@@ -97,6 +107,13 @@ for objects, and `["key"]` (or `.key`) for maps.
 | `var.servers[1].ips[0]`        | 2nd server → `ips` → 1st IP                 | `"10.1.1.3"` |
 | `var.servers[0].tags["owner"]` | 1st server → `tags` → `owner` key           | `"John"`     |
 | `var.servers[1].tags.env`      | 2nd server → `tags` → `env` key             | `"prod"`     |
+| `var.servers[1]["tags"]["owner"]` | 2nd server → `tags` → `owner` key (used by the `owner` output) | `"Bob"` |
+
+Object attributes can also be accessed with square brackets, so
+`var.servers[1]["tags"]["owner"]` and `var.servers[1].tags.owner` are the same.
+The dot form is shorter and more common; the bracket form is needed when the
+key contains characters such as `.` or `/`, or comes from a variable
+(`var.servers[1].tags[var.tag_name]`).
 
 ## Prerequisites
 
@@ -118,11 +135,12 @@ terraform init
 terraform apply
 ```
 
-No infrastructure is created; only the output is saved in the state:
+No infrastructure is created; only the outputs are saved in the state:
 
 ```text
 Outputs:
 
+owner = "Bob"
 servers = tolist([
   {
     "ips" = tolist([
@@ -150,9 +168,24 @@ servers = tolist([
 ```
 
 `tolist()` and `tomap()` mark the lists and maps; the objects are shown as
-plain `{ ... }`. The attributes and map keys are sorted alphabetically.
+plain `{ ... }`. The attributes and map keys are sorted alphabetically, and so
+are the outputs (`owner` before `servers`).
 
-### 3. Read the output
+### 3. Read the outputs
+
+The `owner` output is a single string:
+
+```bash
+terraform output owner
+# "Bob"
+
+terraform output -raw owner
+# Bob
+```
+
+`-raw` prints the value without quotes, which is useful in shell scripts.
+
+The `servers` output is the whole structure:
 
 ```bash
 terraform output -json servers
@@ -230,6 +263,9 @@ part of this example.)
   maps, and so on.
 - Read nested types from the outside in, and write values in the same shape.
 - Access nested values by chaining `[index]`, `.attribute` and `["key"]`.
+  Square brackets also work for object attributes:
+  `var.servers[1]["tags"]["owner"]` equals `var.servers[1].tags.owner`.
+- Outputs can return a whole structure or a single value from inside it.
 - Use splat (`[*]`), `flatten()` and `for` expressions to extract and reshape
   nested data.
 - Terraform validates the whole structure, and error messages point to the
