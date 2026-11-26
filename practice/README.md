@@ -31,5 +31,6 @@ Index of the practice projects and their documentation.
 | Section 03 | `data_type_object` | Demonstrates an `object` input variable with typed attributes, set in `terraform.tfvars` and returned as an output. | [README.md](section_03/data_type_object/README.md) |
 | Section 03 | `nesting_types` | Demonstrates nested types: a `list(object({...}))` variable whose objects contain a string, a list and a map. | [README.md](section_03/nesting_types/README.md) |
 | Section 03 | `count` | Demonstrates the `count` meta-argument and `count.index` to create three EC2 instances from one resource block. | [README.md](section_03/count/README.md) |
+| Section 03 | `data_type_set` | Demonstrates a `set(string)` input variable that removes duplicate values, returned as an output and used with set functions. | [README.md](section_03/data_type_set/README.md) |
 
 Add each new project README to this table as practice examples are created.
