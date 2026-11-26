@@ -32,5 +32,6 @@ Index of the practice projects and their documentation.
 | Section 03 | `nesting_types` | Demonstrates nested types: a `list(object({...}))` variable whose objects contain a string, a list and a map. | [README.md](section_03/nesting_types/README.md) |
 | Section 03 | `count` | Demonstrates the `count` meta-argument and `count.index` to create three EC2 instances from one resource block. | [README.md](section_03/count/README.md) |
 | Section 03 | `data_type_set` | Demonstrates a `set(string)` input variable that removes duplicate values, returned as an output and used with set functions. | [README.md](section_03/data_type_set/README.md) |
+| Section 03 | `for_each` | Demonstrates the `for_each` meta-argument with a set of names and with a map of objects to create EC2 instances keyed by name. | [README.md](section_03/for_each/README.md) |
 
 Add each new project README to this table as practice examples are created.
